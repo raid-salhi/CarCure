@@ -11,7 +11,7 @@ import com.example.carcure.screens.SplashScreen
 @Composable
 fun AppNavigation (){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.SplashScreen.name, modifier = Modifier.padding(it)){
+    NavHost(navController = navController, startDestination = Screens.SplashScreen.name){
         composable(route = Screens.SplashScreen.name ){
             SplashScreen(navController)
         }
