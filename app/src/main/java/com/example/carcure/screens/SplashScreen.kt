@@ -11,6 +11,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +25,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.carcure.R
+import com.example.carcure.naviagation.Screens
 import com.example.carcure.ui.theme.MyBlack
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavHostController) {
+    LaunchedEffect(key1 = true) {
+        delay(500)
+        navController.navigate(Screens.MainScreen.name)
+//        navController.popBackStack()
+    }
    Surface(
        modifier = Modifier.fillMaxSize(),
        color = MyBlack
