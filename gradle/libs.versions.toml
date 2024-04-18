@@ -14,9 +14,10 @@ activityCompose = "1.8.2"
 composeBom = "2023.08.00"
 navigationCompose = "2.7.7"
 coil="2.4.0"
-hilt="2.44"
+hilt="2.48"
 retrofit = "2.9.0"
 workRuntimeKtx = "2.9.0"
+ksp-version = "1.9.0-1.0.12"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +29,7 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle",name="lifecycl
 androidx-work-runtime-ktx = { group = "androidx.work",name="work-runtime-ktx", version.ref = "workRuntimeKtx" }
 converter-gson = { group = "com.squareup.retrofit2",name="converter-gson", version.ref = "converterGson" }
 hilt-android = { group = "com.google.dagger",name="hilt-android", version.ref = "hiltAndroid" }
+hilt-compiler ={group = "com.google.dagger",name="hilt-android-compiler",version.ref ="hilt"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -49,4 +51,6 @@ retrofit = { group = "com.squareup.retrofit2",name="retrofit", version.ref = "re
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+googleDaggerHiltAndroid={id= "com.google.dagger.hilt.android", version.ref ="hilt"}
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
 

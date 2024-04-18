@@ -15,9 +15,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val repo: CarCureApiRepo): ViewModel() {
     private val _list = MutableStateFlow<List<Sign>?>(emptyList())
     val signs = _list.asStateFlow()
-    init {
-        getAllCars()
-    }
+
     private fun getAllCars() {
         viewModelScope.launch {
             _list.value = repo.getSigns()

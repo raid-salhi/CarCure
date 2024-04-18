@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-
+    alias(libs.plugins.googleDaggerHiltAndroid)
+    alias(libs.plugins.ksp)
+    id("kotlin-kapt")
 }
 
 android {
@@ -71,6 +73,7 @@ dependencies {
     implementation(libs.io.coil.kt.compose)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    ksp(libs.hilt.compiler)
     // Coroutines for asynchronous programming
     implementation (libs.kotlinx.coroutines.android)
 

@@ -56,13 +56,7 @@ fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hi
     var tags by remember{
         mutableStateOf(listOf<String>())
     }
-    val signs = remember {
-        mutableStateOf(mainViewModel.signs.value!!)
-    }
-    LaunchedEffect(key1 = signs.value.size) {
-        signs.value= mainViewModel.signs.value!!
-        Log.d("CH3", "MainScreen: ${signs.value}")
-    }
+
     Surface (color = Background, modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier
             .fillMaxSize()
