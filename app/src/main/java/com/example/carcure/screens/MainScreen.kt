@@ -41,11 +41,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.carcure.R
+import com.example.carcure.model.Sign
 import com.example.carcure.naviagation.Screens
 import com.example.carcure.ui.theme.Background
 import com.example.carcure.ui.theme.MyBlack
 import com.example.carcure.ui.theme.MyBlue
 import com.example.carcure.ui.theme.MyGrey
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -56,6 +60,26 @@ fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hi
     var tags by remember{
         mutableStateOf(listOf<String>())
     }
+    val signs = remember {
+        mutableStateOf(emptyList<Sign>())
+    }
+    val signsList= mainViewModel.getSigns()
+    signsList.enqueue(object : Callback<List<Sign>> {
+        override fun onResponse(call: Call<List<Sign>>, response: retrofit2.Response<List<Sign>>) {
+            if (response.isSuccessful){
+                Log.d("TAG", "onResponse: ${response.body()!!.size}")
+                signs.value=response.body()!!
+                call.cancel()
+            }
+            else{
+                Log.d("TAG", "onResponse failed: ${response.errorBody().toString()} ")
+                call.cancel()
+            }
+        }
+        override fun onFailure(call: Call<List<Sign>>, t: Throwable) {
+            Log.d("TAG", "onFailure: ${t.localizedMessage}  ")
+        }
+    })
 
     Surface (color = Background, modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier

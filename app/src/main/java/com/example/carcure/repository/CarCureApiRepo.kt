@@ -7,6 +7,6 @@ import retrofit2.Call
 import javax.inject.Inject
 
 class CarCureApiRepo @Inject constructor(private val apiInterface: CarCureApiInterface) {
-    suspend fun getSigns(): List<Sign> = apiInterface.getSigns()
+    fun getSigns(): Call<List<Sign>> = apiInterface.getSigns()
     fun getDiagnosis(signs: List<Sign>): Call<Problem> = apiInterface.getDiagnosis(signs)
 }

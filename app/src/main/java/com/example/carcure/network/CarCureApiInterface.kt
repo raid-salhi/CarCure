@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 interface CarCureApiInterface {
     @GET("api/signs")
-    suspend fun getSigns ():List<Sign>
+    fun getSigns (): Call<List<Sign>>
     @POST("api/diagnosis")
     fun getDiagnosis(@Body signs:List<Sign>): Call<Problem>
 }

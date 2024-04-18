@@ -13,13 +13,7 @@ import retrofit2.Call
 import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: CarCureApiRepo): ViewModel() {
-    private val _list = MutableStateFlow<List<Sign>?>(emptyList())
-    val signs = _list.asStateFlow()
 
-    private fun getAllCars() {
-        viewModelScope.launch {
-            _list.value = repo.getSigns()
-        }
-    }
     fun getDiagnosis(signs:List<Sign>): Call<Problem> = repo.getDiagnosis(signs)
+    fun getSigns(): Call<List<Sign>> = repo.getSigns()
 }
