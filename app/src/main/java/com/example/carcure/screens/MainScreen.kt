@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.carcure.R
 import com.example.carcure.naviagation.Screens
@@ -47,12 +49,19 @@ import com.example.carcure.ui.theme.MyGrey
 
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hiltViewModel()) {
     var availableTags by remember{
         mutableStateOf(listOf("OverHeating","Vibrations","Brake Problems","Engine Misfiring","Noises","Decreased Fuel Efficiency"))
     }
     var tags by remember{
         mutableStateOf(listOf<String>())
+    }
+    val signs = remember {
+        mutableStateOf(mainViewModel.signs.value!!)
+    }
+    LaunchedEffect(key1 = signs.value.size) {
+        signs.value= mainViewModel.signs.value!!
+        Log.d("CH3", "MainScreen: ${signs.value}")
     }
     Surface (color = Background, modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier
