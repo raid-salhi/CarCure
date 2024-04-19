@@ -1,4 +1,4 @@
-package com.example.carcure.screens
+package com.example.carcure.screens.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
