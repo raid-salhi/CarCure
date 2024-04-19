@@ -8,5 +8,5 @@ import javax.inject.Inject
 
 class CarCureApiRepo @Inject constructor(private val apiInterface: CarCureApiInterface) {
     fun getSigns(): Call<List<Sign>> = apiInterface.getSigns()
-    fun getDiagnosis(signs: List<Sign>): Call<Problem> = apiInterface.getDiagnosis(signs)
+    fun getDiagnosis(signs: List<String>): Call<Problem> = apiInterface.getDiagnosis(signs)
 }

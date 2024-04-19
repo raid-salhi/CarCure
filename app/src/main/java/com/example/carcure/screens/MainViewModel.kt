@@ -14,6 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: CarCureApiRepo): ViewModel() {
 
-    fun getDiagnosis(signs:List<Sign>): Call<Problem> = repo.getDiagnosis(signs)
+    fun getDiagnosis(signs:List<String>): Call<Problem> = repo.getDiagnosis(signs)
     fun getSigns(): Call<List<Sign>> = repo.getSigns()
 }

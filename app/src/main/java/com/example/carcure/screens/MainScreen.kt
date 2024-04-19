@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.carcure.R
+import com.example.carcure.model.Problem
 import com.example.carcure.model.Sign
 import com.example.carcure.naviagation.Screens
 import com.example.carcure.ui.theme.Background
@@ -62,6 +65,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel= h
     var tags by remember{
         mutableStateOf(listOf<Sign>())
     }
+    var isLoading by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(key1 = 1) {
         val signsList= mainViewModel.getSigns()
@@ -82,36 +88,65 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel= h
             }
         })
     }
-
-
     Surface (color = Background, modifier = Modifier.fillMaxSize()){
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 75.dp, start = 25.dp, end = 25.dp)) {
-            Text(
-                text = "Let’s see what’s \n" + "wrong with your car !",
-                fontFamily = FontFamily(listOf(Font(R.font.montserrat_semi_bold))),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp)
-            )
-            TagsContainer(
-                tags = tags,
-                onAction = {navController.navigate(Screens.ResultScreen.name)}
-            ){ tag ->
-                tags = tags - tag
-                availableTags = availableTags+tag
-
-
+        if (isLoading)
+            Box(modifier = Modifier.fillMaxSize()){
+                CircularProgressIndicator(
+                    color = MyBlue,
+                    strokeWidth = 5.dp,
+                    modifier = Modifier.fillMaxSize(0.4f)
+                )
             }
-            Tags(tags =availableTags, { tag ->
-                availableTags = availableTags-tag
-                tags = tags + tag
-                Log.d("TAG", "MainScreen:$tags ")
-            }, Modifier)
-        }
+        else
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 75.dp, start = 25.dp, end = 25.dp)) {
+                Text(
+                    text = "Let’s see what’s \n" + "wrong with your car !",
+                    fontFamily = FontFamily(listOf(Font(R.font.montserrat_semi_bold))),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 30.dp)
+                )
+                TagsContainer(
+                    tags = tags,
+                    onAction = {
+                        isLoading = true
+                        val problem= mainViewModel.getDiagnosis(tags.map { it.name })
+                        problem.enqueue(object : Callback<Problem> {
+                            override fun onResponse(call: Call<Problem>, response: Response<Problem>) {
+                                if (response.isSuccessful){
+                                    Log.d("TAG", "onResponse: ${response.body()!!.id}")
+                                    isLoading = false
+                                    sharedViewModel.addProblem(response.body()!!)
+                                    navController.navigate(Screens.ResultScreen.name)
+                                    call.cancel()
+                                }
+                                else{
+                                    Log.d("TAG", "onResponse failed: ${response.errorBody().toString()} ")
+                                    call.cancel()
+                                }
+                            }
+                            override fun onFailure(call: Call<Problem>, t: Throwable) {
+                                Log.d("TAG", "onFailure: ${t.localizedMessage}  ")
+                            }
+                        })
+
+                    }
+                ){ tag ->
+                    tags = tags - tag
+                    availableTags = availableTags+tag
+
+
+                }
+                Tags(tags =availableTags, { tag ->
+                    availableTags = availableTags-tag
+                    tags = tags + tag
+                    Log.d("TAG", "MainScreen:$tags ")
+                }, Modifier)
+            }
     }
 }
 @Composable

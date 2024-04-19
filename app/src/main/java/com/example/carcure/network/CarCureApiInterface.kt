@@ -13,5 +13,5 @@ interface CarCureApiInterface {
     @GET("api/signs")
     fun getSigns (): Call<List<Sign>>
     @POST("api/diagnosis")
-    fun getDiagnosis(@Body signs:List<Sign>): Call<Problem>
+    fun getDiagnosis(@Body signs:List<String>): Call<Problem>
 }
