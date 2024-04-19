@@ -52,7 +52,7 @@ import retrofit2.Response
 
 
 @Composable
-fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hiltViewModel()) {
+fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel) {
 //    var availableTags by remember{
 //        mutableStateOf(listOf("OverHeating","Vibrations","Brake Problems","Engine Misfiring","Noises","Decreased Fuel Efficiency"))
 //    }

@@ -39,7 +39,7 @@ import com.example.carcure.ui.theme.MyGrey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultScreen(navController: NavHostController) {
+fun ResultScreen(navController: NavHostController,mainViewModel: MainViewModel) {
     Scaffold (
         topBar = {
         TopAppBar(
@@ -130,7 +130,7 @@ fun ResultCard() {
                 color = MyBlack,
                 modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, end = 20.dp)
             )
-        Tags(tags = listOf("Brake Problems","Noises"), onClick = {}, modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp))
+        Tags(tags = listOf(), onClick = {}, modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp))
 
     }
 }
