@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -54,32 +53,36 @@ import retrofit2.Response
 
 @Composable
 fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hiltViewModel()) {
+//    var availableTags by remember{
+//        mutableStateOf(listOf("OverHeating","Vibrations","Brake Problems","Engine Misfiring","Noises","Decreased Fuel Efficiency"))
+//    }
     var availableTags by remember{
-        mutableStateOf(listOf("OverHeating","Vibrations","Brake Problems","Engine Misfiring","Noises","Decreased Fuel Efficiency"))
-    }
-    var tags by remember{
-        mutableStateOf(listOf<String>())
-    }
-    val signs = remember {
         mutableStateOf(emptyList<Sign>())
     }
-    val signsList= mainViewModel.getSigns()
-    signsList.enqueue(object : Callback<List<Sign>> {
-        override fun onResponse(call: Call<List<Sign>>, response: retrofit2.Response<List<Sign>>) {
-            if (response.isSuccessful){
-                Log.d("TAG", "onResponse: ${response.body()!!.size}")
-                signs.value=response.body()!!
-                call.cancel()
+    var tags by remember{
+        mutableStateOf(listOf<Sign>())
+    }
+
+    LaunchedEffect(key1 = 1) {
+        val signsList= mainViewModel.getSigns()
+        signsList.enqueue(object : Callback<List<Sign>> {
+            override fun onResponse(call: Call<List<Sign>>, response: Response<List<Sign>>) {
+                if (response.isSuccessful){
+                    Log.d("TAG", "onResponse: ${response.body()!!.size}")
+                    availableTags=response.body()!!
+                    call.cancel()
+                }
+                else{
+                    Log.d("TAG", "onResponse failed: ${response.errorBody().toString()} ")
+                    call.cancel()
+                }
             }
-            else{
-                Log.d("TAG", "onResponse failed: ${response.errorBody().toString()} ")
-                call.cancel()
+            override fun onFailure(call: Call<List<Sign>>, t: Throwable) {
+                Log.d("TAG", "onFailure: ${t.localizedMessage}  ")
             }
-        }
-        override fun onFailure(call: Call<List<Sign>>, t: Throwable) {
-            Log.d("TAG", "onFailure: ${t.localizedMessage}  ")
-        }
-    })
+        })
+    }
+
 
     Surface (color = Background, modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier
@@ -112,7 +115,7 @@ fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel= hi
     }
 }
 @Composable
-fun TagsContainer(tags: List<String>, onAction:()->Unit ,onClick: (tag:String) -> Unit) {
+fun TagsContainer(tags: List<Sign>, onAction:()->Unit, onClick: (tag:Sign) -> Unit) {
     Card (
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp,color= Color(0xff94A1B2)),
@@ -138,7 +141,7 @@ fun TagsContainer(tags: List<String>, onAction:()->Unit ,onClick: (tag:String) -
                 )
             else
                 Box(modifier = Modifier.fillMaxWidth()){
-                    Tags(modifier =Modifier.align(Alignment.CenterStart), tags = tags, onClick =onClick)
+                    Tags(modifier =Modifier.align(Alignment.CenterStart).padding(end = 32.dp), tags = tags, onClick =onClick)
                     IconButton(
                         onClick = { onAction.invoke() },
                         modifier = Modifier.align(Alignment.CenterEnd)
@@ -158,7 +161,7 @@ fun TagsContainer(tags: List<String>, onAction:()->Unit ,onClick: (tag:String) -
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun Tags(tags: List<String>, onClick: (tag: String) -> Unit, modifier: Modifier) {
+fun Tags(tags: List<Sign>, onClick: (tag: Sign) -> Unit, modifier: Modifier) {
     FlowRow(
         modifier=modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
@@ -172,7 +175,7 @@ fun Tags(tags: List<String>, onClick: (tag: String) -> Unit, modifier: Modifier)
 }
 
 @Composable
-fun TagHolder(tag: String = "OverHeating", onClick: (tag:String) -> Unit) {
+fun TagHolder(tag: Sign , onClick: (tag:Sign) -> Unit) {
     Box(modifier = Modifier
         .padding(end = 5.dp, top = 3.dp, bottom = 3.dp)
         .clip(RoundedCornerShape(20.dp))
@@ -180,7 +183,7 @@ fun TagHolder(tag: String = "OverHeating", onClick: (tag:String) -> Unit) {
         .clickable { onClick(tag) }
     ){
         Text(
-            text = tag,
+            text = tag.name,
 //            fontFamily = FontFamily(listOf((Font(R.font.roboto_medium)))),
             fontSize = 16.sp,
             color= Color.White,
