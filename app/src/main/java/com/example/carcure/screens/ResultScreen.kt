@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.carcure.R
+import com.example.carcure.model.Problem
 import com.example.carcure.ui.theme.Background
 import com.example.carcure.ui.theme.MyBlack
 import com.example.carcure.ui.theme.MyBlue
@@ -40,6 +41,7 @@ import com.example.carcure.ui.theme.MyGrey
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultScreen(navController: NavHostController,sharedViewModel: SharedViewModel) {
+    val problem = sharedViewModel.myProblem!!
     Scaffold (
         topBar = {
         TopAppBar(
@@ -78,12 +80,12 @@ fun ResultScreen(navController: NavHostController,sharedViewModel: SharedViewMod
                     .fillMaxWidth()
                     .padding(bottom = 30.dp)
             )
-            ResultCard()
+            ResultCard(problem=problem)
         }
     }
 }
 @Composable
-fun ResultCard() {
+fun ResultCard(problem: Problem) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -91,7 +93,7 @@ fun ResultCard() {
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Worn brake pads",
+            text = problem.name,
             fontFamily = FontFamily(listOf(Font(R.font.montserrat_semi_bold))),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
@@ -108,7 +110,8 @@ fun ResultCard() {
             modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)
         )
         Text(
-            text = stringResource(R.string.cause),
+//            text = stringResource(R.string.cause),
+            text = problem.description,
             fontFamily = FontFamily(listOf(Font(R.font.roboto))),
             fontSize = 16.sp,
             color = MyBlack,
@@ -121,7 +124,8 @@ fun ResultCard() {
             color = MyBlue,
             modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)
         )
-        val solutions = listOf("your brake pads need to be replaced","address this issue promptly to prevent further damage to the brake system","Bring your car to a qualified mechanic or brake specialisBring your car to a qualified mechanic or brake specialist")
+//        val solutions = listOf("your brake pads need to be replaced","address this issue promptly to prevent further damage to the brake system","Bring your car to a qualified mechanic or brake specialisBring your car to a qualified mechanic or brake specialist")
+        val solutions = problem.solutions.split(',')
         for (index in solutions.indices)
             Text(
                 text = (index+1).toString() +". "+ solutions[index] ,
@@ -130,7 +134,7 @@ fun ResultCard() {
                 color = MyBlack,
                 modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, end = 20.dp)
             )
-        Tags(tags = listOf(), onClick = {}, modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp))
+        Tags(tags = problem.signs, onClick = {}, modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp))
 
     }
 }
