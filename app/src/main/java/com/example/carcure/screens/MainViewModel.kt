@@ -1,4 +1,4 @@
-package com.example.carcure.screens.viewmodels
+package com.example.carcure.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

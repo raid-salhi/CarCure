@@ -154,7 +154,7 @@ fun ResultCard(problem: Problem) {
             color = MyBlue,
             modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)
         )
-        val solutions = problem.solutions.split(',').map { it.capitalize() }
+        val solutions = problem.solutions.split(", ").map { it.replaceFirstChar { it.uppercaseChar() } }
         for (index in solutions.indices)
             Text(
                 text = (index+1).toString() +". "+ solutions[index] ,

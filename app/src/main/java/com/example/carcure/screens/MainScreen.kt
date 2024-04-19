@@ -28,7 +28,6 @@ import com.example.carcure.model.Signs
 import com.example.carcure.naviagation.Screens
 import com.example.carcure.screens.componants.Tags
 import com.example.carcure.screens.componants.TagsContainer
-import com.example.carcure.screens.viewmodels.MainViewModel
 import com.example.carcure.screens.viewmodels.SharedViewModel
 import com.example.carcure.ui.theme.Background
 import retrofit2.Call
