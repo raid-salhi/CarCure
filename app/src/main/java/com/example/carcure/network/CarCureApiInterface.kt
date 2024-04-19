@@ -2,6 +2,7 @@ package com.example.carcure.network
 
 import com.example.carcure.model.Problem
 import com.example.carcure.model.Sign
+import com.example.carcure.model.Signs
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,6 +13,6 @@ import javax.inject.Singleton
 interface CarCureApiInterface {
     @GET("api/signs")
     fun getSigns (): Call<List<Sign>>
-    @POST("api/diagnosis")
-    fun getDiagnosis(@Body signs:List<String>): Call<Problem>
+    @POST("api/diagnosis/")
+    fun getDiagnosis(@Body signs: Signs): Call<Problem>
 }

@@ -44,6 +44,7 @@ import androidx.navigation.NavHostController
 import com.example.carcure.R
 import com.example.carcure.model.Problem
 import com.example.carcure.model.Sign
+import com.example.carcure.model.Signs
 import com.example.carcure.naviagation.Screens
 import com.example.carcure.ui.theme.Background
 import com.example.carcure.ui.theme.MyBlack
@@ -94,7 +95,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel= h
                 CircularProgressIndicator(
                     color = MyBlue,
                     strokeWidth = 5.dp,
-                    modifier = Modifier.fillMaxSize(0.4f)
+                    modifier = Modifier.fillMaxSize(0.4f).align(Alignment.Center)
                 )
             }
         else
@@ -114,7 +115,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel= h
                     tags = tags,
                     onAction = {
                         isLoading = true
-                        val problem= mainViewModel.getDiagnosis(tags.map { it.name })
+                        val problem= mainViewModel.getDiagnosis(Signs(signs = tags.map { it.name }))
                         problem.enqueue(object : Callback<Problem> {
                             override fun onResponse(call: Call<Problem>, response: Response<Problem>) {
                                 if (response.isSuccessful){
