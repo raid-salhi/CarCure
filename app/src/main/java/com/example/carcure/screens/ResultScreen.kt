@@ -39,7 +39,7 @@ import com.example.carcure.ui.theme.MyGrey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultScreen(navController: NavHostController,mainViewModel: MainViewModel) {
+fun ResultScreen(navController: NavHostController,sharedViewModel: SharedViewModel) {
     Scaffold (
         topBar = {
         TopAppBar(

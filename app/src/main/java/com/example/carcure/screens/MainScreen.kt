@@ -52,7 +52,7 @@ import retrofit2.Response
 
 
 @Composable
-fun MainScreen(navController: NavHostController,mainViewModel: MainViewModel) {
+fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel= hiltViewModel(), sharedViewModel: SharedViewModel) {
 //    var availableTags by remember{
 //        mutableStateOf(listOf("OverHeating","Vibrations","Brake Problems","Engine Misfiring","Noises","Decreased Fuel Efficiency"))
 //    }
@@ -141,7 +141,9 @@ fun TagsContainer(tags: List<Sign>, onAction:()->Unit, onClick: (tag:Sign) -> Un
                 )
             else
                 Box(modifier = Modifier.fillMaxWidth()){
-                    Tags(modifier =Modifier.align(Alignment.CenterStart).padding(end = 32.dp), tags = tags, onClick =onClick)
+                    Tags(modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(end = 32.dp), tags = tags, onClick =onClick)
                     IconButton(
                         onClick = { onAction.invoke() },
                         modifier = Modifier.align(Alignment.CenterEnd)
